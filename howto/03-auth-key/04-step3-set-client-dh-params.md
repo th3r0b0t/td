@@ -38,7 +38,7 @@ TDLib also validates its own `g_b` against the same range check applied to `g_a`
 client_DH_inner_data#6643b654 nonce:int128 server_nonce:int128
     retry_id:long g_b:string = Client_DH_Inner_Data;
 ```
-(`mtproto_api.tl:20`)
+(`mtproto_api.tl:22`)
 
 ```cpp
 auto data = store_object(mtproto_api::client_DH_inner_data(nonce_, server_nonce_, 0, g_b));
@@ -90,7 +90,7 @@ Two details:
 set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128
     encrypted_data:string = Set_client_DH_params_answer;
 ```
-(`mtproto_api.tl:22`)
+(`mtproto_api.tl:77`)
 
 ```cpp
 mtproto_api::set_client_DH_params set_client_dh_params(nonce_, server_nonce_, encrypted_data);

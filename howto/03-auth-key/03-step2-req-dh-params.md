@@ -15,7 +15,7 @@ non-standard padding scheme, and decrypting the server's reply with a temporary 
 p_q_inner_data_dc#a9f55f95 pq:string p:string q:string nonce:int128
     server_nonce:int128 new_nonce:int256 dc:int = P_Q_inner_data;
 ```
-(`mtproto_api.tl:11`)
+(`mtproto_api.tl:15`)
 
 ```cpp
 data = store_object(mtproto_api::p_q_inner_data_dc(
@@ -39,7 +39,7 @@ For a temporary (PFS) key, use instead:
 p_q_inner_data_temp_dc#56fddf88 pq:string p:string q:string nonce:int128
     server_nonce:int128 new_nonce:int256 dc:int expires_in:int = P_Q_inner_data;
 ```
-(`mtproto_api.tl:12`)
+(`mtproto_api.tl:16`)
 
 ### Size
 
@@ -205,7 +205,7 @@ is inside a `while (true)` loop** — on failure you regenerate `aes_key` and st
 req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:string q:string
     public_key_fingerprint:long encrypted_data:string = Server_DH_Params;
 ```
-(`mtproto_api.tl:14`)
+(`mtproto_api.tl:75`)
 
 ```cpp
 mtproto_api::req_DH_params req_dh_params(nonce_, server_nonce_, p, q,
@@ -225,11 +225,14 @@ server compares them; that is the proof-of-work check.
 server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128
     encrypted_answer:string = Server_DH_Params;
 ```
-(`mtproto_api.tl:16`)
+(`mtproto_api.tl:18`)
 
-There is also `server_DH_params_fail#79cb045d ... new_nonce_hash:int128`
-(`mtproto_api.tl:15`, commented out in TDLib's schema since it is never handled). If you
-receive it, your `p`/`q` or RSA blob was wrong; abort.
+The published protocol description also defines
+`server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128`.
+It is **absent from TDLib's schema** — `mtproto_api.tl:18` lists only the `_ok` variant,
+because TDLib never has anything useful to do with a failure beyond restarting. If your
+parser encounters an unknown constructor here, treat it as a fatal handshake error: your
+`p`/`q` or RSA blob was wrong; abort and start over.
 
 ### Validation
 
@@ -335,7 +338,7 @@ Three checks here, all mandatory:
 server_DH_inner_data#b5890dba nonce:int128 server_nonce:int128 g:int
     dh_prime:string g_a:string server_time:int = Server_DH_inner_data;
 ```
-(`mtproto_api.tl:18`)
+(`mtproto_api.tl:20`)
 
 ```cpp
 if (dh_inner_data.nonce_ != nonce_) return Status::Error("Nonce mismatch");

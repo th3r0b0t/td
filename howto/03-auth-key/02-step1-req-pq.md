@@ -9,7 +9,7 @@
 ```
 req_pq_multi#be7e8ef1 nonce:int128 = ResPQ;
 ```
-(`td/generate/scheme/mtproto_api.tl:8`)
+(`td/generate/scheme/mtproto_api.tl:73`)
 
 Generate 16 cryptographically random bytes for `nonce` and remember them; you will compare
 them against every server reply for the rest of the handshake.
@@ -48,10 +48,11 @@ Then framed with the 4-byte Intermediate length prefix (`38 00 00 00` = 56).
 
 ### Why `_multi`?
 
-There is also `req_pq#60469778 nonce:int128 = ResPQ;`
-(`mtproto_api.tl:7`). The difference is server-side: `req_pq_multi` permits the server to
-return multiple RSA fingerprints and is what all current clients use. TDLib only ever sends
-`req_pq_multi`. Note the amusing consequence in `Handshake.cpp:91`:
+There is also an older `req_pq#60469778 nonce:int128 = ResPQ;` in the published protocol
+description. It is **absent from TDLib's schema entirely** — the whole
+`td/generate/scheme/mtproto_api.tl` contains only `req_pq_multi` (line 73). The difference
+is server-side: `req_pq_multi` permits the server to return multiple RSA fingerprints and
+is what all current clients use. Note the amusing consequence in `Handshake.cpp:91`:
 
 ```cpp
 TRY_RESULT(res_pq, fetch_result<mtproto_api::req_pq_multi>(message, false));
@@ -67,7 +68,7 @@ it parses the *result type* of `req_pq_multi`, which is `ResPQ`.
 resPQ#05162463 nonce:int128 server_nonce:int128 pq:string
     server_public_key_fingerprints:Vector<long> = ResPQ;
 ```
-(`mtproto_api.tl:5`)
+(`mtproto_api.tl:13`)
 
 | Field | Type | Meaning |
 |-------|------|---------|
