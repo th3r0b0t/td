@@ -64,7 +64,7 @@ the [appendices](appendix/) are the part you will keep coming back to.
 | **8** | [Sending a message](08-sending-a-message/) | Resolving peers, `messages.sendMessage`, updates |
 | **9** | [Advanced topics](09-advanced/) | Perfect forward secrecy, temporary keys, multi-DC |
 | **10** | [Implementation guides](10-implementation/) | Concrete C and Rust structure, testing, debugging |
-| **A–E** | [Appendices](appendix/) | Constructor IDs, DC addresses, RSA keys, errors, source map |
+| **A–E** | [Appendices](appendix/) | Constructor IDs, DC addresses, RSA keys, errors, source map, checklist |
 
 ### Chapter index
 
